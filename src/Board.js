@@ -61,15 +61,14 @@
       );
     },
 
-
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
     \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
     |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
 
- */
+    */
     /*=========================================================================
     =                 TODO: fill in these Helper Functions                    =
     =========================================================================*/
@@ -78,13 +77,51 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
+
+    // I - rowIndex
+    // O - boolean
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // access the Board array with rows()
+      let targetRow = this.rows()[rowIndex];
+      let counter = 0;
+
+      // iterate through the row, specified by rowIndex and check for 1's
+      for (const elem of targetRow) {
+        if (elem === 1) {
+          counter++;
+        }
+      }
+
+      if (counter >= 2) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // test if any rows on this board contain conflicts
+
+    // I - none
+    // O - boolean true/false
+
+    // checks entire board and returns if any row conflicts
+
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      // alias board
+      let board = this.rows();
+
+      // To Do Later:
+      // board.forEach((row, i) => (hasRowConflictAt(i)) ? true : false);
+
+      // iterate over the board
+      for (let i = 0; i < board.length; i++) {
+        // if return of (call hasRowConflictAt(current index)) return true
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
     },
 
 
