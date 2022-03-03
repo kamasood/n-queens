@@ -195,18 +195,58 @@
 
     // O - boolean true/false
 
-    // E - if a negative index is passed, find diagonal's starting row index in first column
+    // E - if a negative index is passed, find diagonal's starting row index in first column (trace major diagonal to first column)
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       // alias board
+      let board = this.rows();
       // declare counter
+      let counter = 0;
 
+      // alias targetRowIndex starting point
+      let targetRowIndex = 0;
+      // alias targetColIndex starting point
+      let targetColIndex = majorDiagonalColumnIndexAtFirstRow;
 
+      // while (!this._isInBounds(targetRowIndex, targetColIndex)
+      //// targetRowIndex++;
+      //// targetColIndex++
 
+      while (!this._isInBounds(targetRowIndex, targetColIndex)) {
+        targetRowIndex++;
+        targetColIndex++;
+      }
+      /*************/
 
+      // declare a recursive innerFunction(targetRowIndex, targetColIndex)
+      const checkMajorDiagonalEntry = function(rowIndex, colIndex) {
+        //// base case: we have left the array behind
+        if (!this._isInBounds(rowIndex, colIndex)) {
+          return;
+        }
 
+        if (board[rowIndex][colIndex] === 1) {
+          counter++;
+        }
 
+        checkMajorDiagonalEntry(rowIndex + 1, colIndex + 1);
+      };
+
+      /*************/
+
+      // use starting points to FIRST invoke innerFunction(targetRowIndex, targetColIndex)
+      checkMajorDiagonalEntry(targetRowIndex, targetColIndex);
+
+      // if counter >= 2, return true
+      // else return false
+      if (counter >= 2) {
+        return true;
+      } else {
+        return false;
+      }
     },
+
+
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
