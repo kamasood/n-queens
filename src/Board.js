@@ -130,23 +130,82 @@
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
+
+    // I - index number (index within each row array)
+    // O - boolean true/false
+
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // alias board
+      let board = this.rows();
+      // counter
+      let counter = 0;
+
+      // iterate through the board (i = row array)
+      // iterate through each row array (j = column index)
+      // check if item at current column index === 1
+      // if current column not equal to colum index, continue
+      // if so, counter ++
+      for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+          if (j !== colIndex) {
+            continue;
+          }
+          if (board[i][j] === 1) {
+            counter++;
+          }
+        }
+      }
+
+      // if counter >= 2, return true
+      if (counter >= 2) {
+        return true;
+      }
+      // return false
+      return false;
     },
 
     // test if any columns on this board contain conflicts
-    hasAnyColConflicts: function() {
-      return false; // fixme
-    },
 
+    // I - none
+    // O - boolean true/false
+
+    hasAnyColConflicts: function() {
+      // alias board
+      var firstRow = this.rows()[0];
+
+      // iterate through first row
+      // if (hasColConflictAt(index)), return true
+      for (let i = 0; i < firstRow.length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
+    },
 
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
+
+    // I - starting column index for this major diagonal (trace major diagonal to first row) (can be negative index)
+    //     iteration starts at (rowIndex, columnIndex) = (0, majorDiagonalColumnIndexAtFirstRow)
+
+    // O - boolean true/false
+
+    // E - if a negative index is passed, find diagonal's starting row index in first column
+
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      // alias board
+      // declare counter
+
+
+
+
+
+
     },
 
     // test if any major diagonals on this board contain conflicts
