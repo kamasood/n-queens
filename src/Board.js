@@ -199,6 +199,7 @@
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       // alias board
+      let context = this;
       let board = this.rows();
       // declare counter
       let counter = 0;
@@ -208,20 +209,16 @@
       // alias targetColIndex starting point
       let targetColIndex = majorDiagonalColumnIndexAtFirstRow;
 
-      // while (!this._isInBounds(targetRowIndex, targetColIndex)
-      //// targetRowIndex++;
-      //// targetColIndex++
-
-      while (!this._isInBounds(targetRowIndex, targetColIndex)) {
+      // find board entry point, based on passed in column value
+      while (!context._isInBounds(targetRowIndex, targetColIndex)) {
         targetRowIndex++;
         targetColIndex++;
       }
-      /*************/
 
       // declare a recursive innerFunction(targetRowIndex, targetColIndex)
       const checkMajorDiagonalEntry = function(rowIndex, colIndex) {
         //// base case: we have left the array behind
-        if (!this._isInBounds(rowIndex, colIndex)) {
+        if (!context._isInBounds(rowIndex, colIndex)) {
           return;
         }
 
@@ -231,8 +228,6 @@
 
         checkMajorDiagonalEntry(rowIndex + 1, colIndex + 1);
       };
-
-      /*************/
 
       // use starting points to FIRST invoke innerFunction(targetRowIndex, targetColIndex)
       checkMajorDiagonalEntry(targetRowIndex, targetColIndex);
@@ -250,22 +245,80 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      let n = this.get('n');
+
+      // iterate through every major diagonal on the board
+      // if given this starting point there is a hasMajorDiagonalConflictAt return true
+      for (let i = -n + 1; i < n; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
     },
-
-
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      // alias board
+      let context = this;
+      let board = this.rows();
+      // declare counter
+      let counter = 0;
+
+      // alias targetRowIndex starting point
+      let targetRowIndex = 0;
+      // alias targetColIndex starting point
+      let targetColIndex = minorDiagonalColumnIndexAtFirstRow;
+
+      // find board entry point, based on passed in column value
+      while (!context._isInBounds(targetRowIndex, targetColIndex)) {
+        targetRowIndex++;
+        targetColIndex--;
+      }
+
+      // declare a recursive innerFunction(targetRowIndex, targetColIndex)
+      const checkMinorDiagonalEntry = function(rowIndex, colIndex) {
+        //// base case: we have left the array behind
+        if (!context._isInBounds(rowIndex, colIndex)) {
+          return;
+        }
+
+        if (board[rowIndex][colIndex] === 1) {
+          counter++;
+        }
+
+        checkMinorDiagonalEntry(rowIndex + 1, colIndex - 1);
+      };
+
+      // use starting points to FIRST invoke innerFunction(targetRowIndex, targetColIndex)
+      checkMinorDiagonalEntry(targetRowIndex, targetColIndex);
+
+      // if counter >= 2, return true
+      // else return false
+      if (counter >= 2) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      let n = this.get('n');
+
+      // iterate through every minor diagonal on the board
+      // if given this starting point there is a hasMajorDiagonalConflictAt return true
+      for (let i = 2 * (n - 1); i >= 0; i--) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
