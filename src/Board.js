@@ -172,6 +172,9 @@
     hasAnyColConflicts: function() {
       // alias board
       var firstRow = this.rows()[0];
+      if (!firstRow) {
+        return false;
+      }
 
       // iterate through first row
       // if (hasColConflictAt(index)), return true
